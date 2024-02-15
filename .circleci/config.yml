@@ -17,7 +17,7 @@ jobs:
 
   deploy:
     docker:
-      - image:  node:18
+      - image: node:18
 
     working_directory: /app
 
@@ -30,17 +30,34 @@ jobs:
 
       - run:
           name: Deploy to Vercel
-          command: vercel --prod --token $VERCEL_TOKEN --confirm
+          command: |
+            echo $VERCEL_TOKEN | vercel login
+            vercel --prod --token $VERCEL_TOKEN --yes
 
+  hold_for_approval:
+    docker:
+      - image: cimg/node:18
+    steps:
+      - checkout
+      - run:
+          name: Hold for approval
+          command: echo "Waiting for approval..."
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
       - build
+      - hold_for_approval:
+          type: approval
+          filters:
+            branches:
+              only:
+                - main
       - deploy:
           requires:
             - build
-
-
-
+          filters:
+            branches:
+              only:
+                - main
