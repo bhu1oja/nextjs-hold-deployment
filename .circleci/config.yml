@@ -1,39 +1,73 @@
 version: 2.1
-
 jobs:
-  deploy_to_vercel:
+  preview_deployment:
     docker:
-      - image: cimg/node:14.17.6
+      - image: cimg/node:20.10.0
+    environment:
+      VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
+      VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
     steps:
       - checkout
       - run:
           name: Install Vercel CLI
           command: npm i -g vercel
       - run:
-          name: Deploy to Vercel
-          command: vercel deploy --prod --token=VERCEL_TOKEN
+          name: Pull Vercel Environment Information
+          command: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+      - run:
+          name: Build Project Artifacts
+          command: vercel build --token=$VERCEL_TOKEN
+      - run:
+          name: Deploy Project Artifacts to Vercel
+          command: vercel deploy --prebuilt --token=$VERCEL_TOKEN
 
-  hold_for_approval:
+  production_deployment:
     docker:
-      - image: cimg/node:14.17.6
+      - image: cimg/node:20.10.0
+    environment:
+      VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
+      VERCEL_PROJECT_ID: prj_qfD0UT3oA07WBd6FOdt9eCIy7v7
     steps:
       - checkout
       - run:
-          name: Hold for approval
-          command: echo "Waiting for approval..."
+          name: Install Vercel CLI
+          command: npm i -g vercel
+      - run:
+          name: Pull Vercel Environment Information
+          command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+      - run:
+          name: Build Project Artifacts
+          command: vercel build --prod --token=$VERCEL_TOKEN
+      - run:
+          name: Hold for Approval (manually set APPROVAL_FLAG)
+          command: |
+            if [ -z "$APPROVAL_FLAG" ]; then
+              echo "Production deployment requires manual approval. Set the APPROVAL_FLAG environment variable to proceed."
+              exit 1
+            fi
+      - run:
+          name: Deploy Project Artifacts to Vercel (After Approval)
+          command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
 
 workflows:
   version: 2
-  deploy_to_vercel:
+  preview_and_production:
     jobs:
-      - deploy_to_vercel:
+      - preview_deployment:
           filters:
             branches:
-              only:
-                - main
+              ignore: /main/
       - hold_for_approval:
           type: approval
           filters:
             branches:
-              only:
-                - main
+              only: /main/
+      - production_deployment:
+          requires:
+            - hold_for_approval
+          filters:
+            branches:
+              only: /main/
+          environment:
+            APPROVAL_FLAG: "" 
+
