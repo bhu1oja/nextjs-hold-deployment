@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-deploy_to_vercel:
+  deploy_to_vercel:
     docker:
       - image: cimg/node:20.10.0
     steps:
