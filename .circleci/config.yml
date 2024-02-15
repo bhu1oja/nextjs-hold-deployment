@@ -1,9 +1,8 @@
 version: 2.1
-
 jobs:
   preview_deployment:
     docker:
-      - image: cimg/node:14.17.6
+      - image: cimg/node:20.10.0
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
       VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
@@ -14,17 +13,17 @@ jobs:
           command: npm i -g vercel
       - run:
           name: Pull Vercel Environment Information
-          command: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          command: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
       - run:
           name: Build Project Artifacts
-          command: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          command: vercel build --token=$VERCEL_TOKEN
       - run:
           name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+          command: vercel deploy --prebuilt --token=$VERCEL_TOKEN
 
   production_deployment:
     docker:
-      - image: cimg/node:14.17.6
+      - image: cimg/node:20.10.0
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
       VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
@@ -35,16 +34,16 @@ jobs:
           command: npm i -g vercel
       - run:
           name: Pull Vercel Environment Information
-          command: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
       - run:
           name: Build Project Artifacts
-          command: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          command: vercel build --prod --token=$VERCEL_TOKEN 
       - run:
           name: Deploy Project Artifacts to Vercel (Hold)
-          command: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm=0
+          command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --confirm=0
       - run:
           name: Publish Deployment
-          command: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+          command: vercel deploy --prod --token=$VERCEL_TOKEN
 
 workflows:
   version: 2
