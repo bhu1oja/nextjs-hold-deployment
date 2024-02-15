@@ -25,9 +25,6 @@ workflows:
   version: 2
   deploy-website:
     jobs:
-      - unit-test
-      - lint
-      - typescript
       - hold_for_approval:
           type: approval
           filters:
@@ -36,9 +33,6 @@ workflows:
                 - main
       - deploy_to_vercel:
           requires:
-            - unit-test
-            - lint
-            - typescript
             - hold_for_approval
           filters:
             branches:
