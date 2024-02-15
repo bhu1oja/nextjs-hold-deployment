@@ -17,7 +17,7 @@ jobs:
 
   deploy:
     docker:
-      - image:  node:18
+      - image: node:18
 
     working_directory: /app
 
@@ -43,7 +43,6 @@ jobs:
           name: Hold for approval
           command: echo "Waiting for approval..."
 
-
 workflows:
   version: 2
   build_and_deploy:
@@ -62,6 +61,3 @@ workflows:
             branches:
               only:
                 - main
-
-
-
