@@ -34,8 +34,6 @@ jobs:
             else
               vercel --prod --token $VERCEL_TOKEN --yes
             fi
-
-
 workflows:
   version: 2
   build_and_deploy:
