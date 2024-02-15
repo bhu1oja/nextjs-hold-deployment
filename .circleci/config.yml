@@ -17,7 +17,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/base:2021.10
+      - image:  node:18
 
     working_directory: /app
 
@@ -40,3 +40,6 @@ workflows:
       - deploy:
           requires:
             - build
+
+
+
