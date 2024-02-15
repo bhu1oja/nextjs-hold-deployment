@@ -1,40 +1,56 @@
 version: 2.1
 jobs:
-  deploy_to_vercel:
+  preview_deployment:
     docker:
       - image: cimg/node:20.10.0
+    environment:
+      VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
+      VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
     steps:
       - checkout
-      - run: npm i -g vercel
       - run:
-          name: Deploy to Vercel
-          command: |
-            echo $VERCEL_TOKEN | vercel login
-            vercel deploy --prod --yes
+          name: Install Vercel CLI
+          command: npm i -g vercel
+      - run:
+          name: Pull Vercel Environment Information
+          command: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+      - run:
+          name: Build Project Artifacts
+          command: vercel build --token=$VERCEL_TOKEN
+      - run:
+          name: Deploy Project Artifacts to Vercel
+          command: vercel deploy --prebuilt --token=$VERCEL_TOKEN
 
-  hold_for_approval:
+  production_deployment:
     docker:
       - image: cimg/node:20.10.0
+    environment:
+      VERCEL_ORG_ID: $VERCEL_ORG_ID
+      VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
     steps:
       - checkout
       - run:
-          name: Hold for approval
-          command: echo "Waiting for approval..."
+          name: Install Vercel CLI
+          command: npm i -g vercel
+      - run:
+          name: Pull Vercel Environment Information
+          command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+      - run:
+          name: Build Project Artifacts
+          command: vercel build --prod --token=$VERCEL_TOKEN
+      - run:
+          name: Deploy Project Artifacts to Vercel
+          command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
 
 workflows:
   version: 2
-  deploy-website:
+  preview_and_production:
     jobs:
-      - hold_for_approval:
-          type: approval
+      - preview_deployment:
           filters:
             branches:
-              only:
-                - main
-      - deploy_to_vercel:
-          requires:
-            - hold_for_approval
+              ignore: /main/
+      - production_deployment:
           filters:
             branches:
-              only:
-                - main
+              only: /main/
