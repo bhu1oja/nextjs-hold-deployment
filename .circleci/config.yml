@@ -2,11 +2,13 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: node:18
+      - image: node:14
 
     working_directory: /app
+
     steps:
       - checkout
+
       - run:
           name: Install Dependencies
           command: yarn install
@@ -15,9 +17,9 @@ jobs:
           name: Build
           command: yarn build
 
-  deploy:
+  deploy_preview:
     docker:
-      - image:  node:18
+      - image: node:14
 
     working_directory: /app
 
@@ -29,18 +31,39 @@ jobs:
           command: npm install -g vercel
 
       - run:
-          name: Deploy to Vercel
+          name: Deploy to Vercel (Preview)
           command: vercel --prod --token $VERCEL_TOKEN --confirm
 
+  deploy_prod:
+    docker:
+      - image: node:14
+
+    working_directory: /app
+
+    steps:
+      - checkout
+
+      - run:
+          name: Manual Approval Required
+          command: echo "Please manually approve the production deployment in the CircleCI workflow."
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
-      - deploy:
+      - build:
+          filters:
+            branches:
+              only:
+                - main
+      - deploy_preview:
           requires:
             - build
-
-
-
+          filters:
+            branches:
+              only:
+                - main
+      - deploy_prod:
+          requires:
+            - deploy_preview
+          type: approval
