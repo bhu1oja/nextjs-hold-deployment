@@ -23,11 +23,9 @@ jobs:
 
     steps:
       - checkout
-
       - run:
           name: Install Vercel CLI
-          command: npm install -g vercel
-
+          command: npm install -g vercel]
       - run:
           name: Deploy to Vercel
           command: |
