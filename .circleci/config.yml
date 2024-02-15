@@ -25,12 +25,13 @@ jobs:
       - checkout
 
       - run:
+          name: Install Vercel CLI
+          command: npm install -g vercel
+
+      - run:
           name: Deploy to Vercel
-          command: |
-            curl -o vercel.tgz -sSL https://cdn.vercel.com/download/linux -x
-            tar -xzf vercel.tgz -C /usr/local/bin
-            vercel --version
-            vercel --prod --token $VERCEL_TOKEN
+          command: vercel --prod --token $VERCEL_TOKEN
+
 
 workflows:
   version: 2
