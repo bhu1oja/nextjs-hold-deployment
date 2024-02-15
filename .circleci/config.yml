@@ -31,11 +31,17 @@ jobs:
       - run:
           name: Deploy to Vercel
           command: |
-            if [ "$CIRCLE_BRANCH" == "main" ]; then
-              echo "Manual approval required for production deployment. Visit the CircleCI dashboard to approve."
-            else
-              vercel --prod --token $VERCEL_TOKEN --yes
-            fi
+            echo $VERCEL_TOKEN | vercel login
+            vercel --prod --token $VERCEL_TOKEN --yes
+
+  hold_for_approval:
+    docker:
+      - image: cimg/node:18
+    steps:
+      - checkout
+      - run:
+          name: Hold for approval
+          command: echo "Waiting for approval..."
 
 
 workflows:
@@ -43,9 +49,19 @@ workflows:
   build_and_deploy:
     jobs:
       - build
+      - hold_for_approval:
+          type: approval
+          filters:
+            branches:
+              only:
+                - main
       - deploy:
           requires:
             - build
+          filters:
+            branchs:
+              only:
+                - main
 
 
 
