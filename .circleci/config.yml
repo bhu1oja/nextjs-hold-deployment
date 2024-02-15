@@ -23,9 +23,11 @@ jobs:
 
     steps:
       - checkout
+
       - run:
           name: Install Vercel CLI
           command: npm install -g vercel
+
       - run:
           name: Deploy to Vercel
           command: |
@@ -34,22 +36,16 @@ jobs:
             else
               vercel --prod --token $VERCEL_TOKEN --yes
             fi
+
+
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - main
+      - build
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              ignore:
-                - main
 
 
 
