@@ -1,42 +1,20 @@
 version: 2.1
 jobs:
-  build:
+  deploy_to_vercel:
     docker:
-      - image: node:18
-
-    working_directory: /app
+      - image: cimg/node:20.10.0
     steps:
       - checkout
-      - run:
-          name: Install Dependencies
-          command: yarn install
-
-      - run:
-          name: Build
-          command: yarn build
-
-  deploy:
-    docker:
-      - image: node:18
-
-    working_directory: /app
-
-    steps:
-      - checkout
-
-      - run:
-          name: Install Vercel CLI
-          command: npm install -g vercel
-
+      - run: npm i -g vercel
       - run:
           name: Deploy to Vercel
           command: |
             echo $VERCEL_TOKEN | vercel login
-            vercel --prod --token $VERCEL_TOKEN --yes
+            vercel deploy --prod --yes
 
   hold_for_approval:
     docker:
-      - image: cimg/node:18
+      - image: cimg/node:20.10.0
     steps:
       - checkout
       - run:
@@ -45,18 +23,17 @@ jobs:
 
 workflows:
   version: 2
-  build_and_deploy:
+  deploy-website:
     jobs:
-      - build
       - hold_for_approval:
           type: approval
           filters:
             branches:
               only:
                 - main
-      - deploy:
+      - deploy_to_vercel:
           requires:
-            - build
+            - hold_for_approval
           filters:
             branches:
               only:
