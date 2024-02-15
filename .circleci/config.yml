@@ -37,10 +37,13 @@ jobs:
           command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
       - run:
           name: Build Project Artifacts
-          command: vercel build --prod --token=$VERCEL_TOKEN
+          command: vercel build --prod --token=$VERCEL_TOKEN 
       - run:
-          name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+          name: Deploy Project Artifacts to Vercel (Hold)
+          command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --confirm=0
+      - run:
+          name: Publish Deployment
+          command: vercel deploy --prod --token=$VERCEL_TOKEN
 
 workflows:
   version: 2
