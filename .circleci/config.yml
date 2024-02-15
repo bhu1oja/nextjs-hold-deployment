@@ -59,7 +59,7 @@ workflows:
           requires:
             - build
           filters:
-            branchs:
+            branches:
               only:
                 - main
 
