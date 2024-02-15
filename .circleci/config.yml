@@ -30,7 +30,7 @@ jobs:
 
       - run:
           name: Deploy to Vercel
-          command: vercel --prod --token $VERCEL_TOKEN
+          command: vercel --prod --token $VERCEL_TOKEN --confirm
 
 
 workflows:
