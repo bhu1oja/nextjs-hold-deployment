@@ -69,5 +69,7 @@ workflows:
             branches:
               only: /main/
           environment:
-            APPROVAL_FLAG: "" 
+            VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
+            VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
+            APPROVAL_FLAG: ""  
 
