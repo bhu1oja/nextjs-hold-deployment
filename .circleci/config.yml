@@ -30,17 +30,30 @@ jobs:
 
       - run:
           name: Deploy to Vercel
-          command: vercel --prod --token $VERCEL_TOKEN --yes
+          command: |
+            if [ "$CIRCLE_BRANCH" == "main" ]; then
+              echo "Manual approval required for production deployment. Visit the CircleCI dashboard to approve."
+            else
+              vercel --prod --token $VERCEL_TOKEN --yes
+            fi
 
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - main
       - deploy:
           requires:
             - build
+          filters:
+            branches:
+              ignore:
+                - main
 
 
 
