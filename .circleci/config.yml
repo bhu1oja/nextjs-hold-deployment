@@ -27,7 +27,7 @@ jobs:
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
       VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
-      APPROVAL_FLAG: ""
+      APPROVAL_FLAG: ''
     steps:
       - checkout
       - run:
@@ -69,4 +69,3 @@ workflows:
           filters:
             branches:
               only: /main/
-
