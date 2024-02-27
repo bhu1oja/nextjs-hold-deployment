@@ -41,7 +41,7 @@ jobs:
           command: vercel env ls --token=$VERCEL_TOKEN
       - run:
           name: Add production environment to Vercel
-          command: echo 'whatevervalue' | vercel env add TEST_VARR production --token=$VERCEL_TOKEN ;
+          command: echo 'whatevervalue' | vercel env add MY_ENV_VARIABLER production --token=$VERCEL_TOKEN ;
       - run:
           name: Build Project Artifacts
           command: vercel build --prod --token=$VERCEL_TOKEN
@@ -50,7 +50,7 @@ jobs:
           command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
       - run:
           name: Remove production environment from Vercel
-          command: vercel env rm TEST_VARR production --token=$VERCEL_TOKEN
+          command: vercel env rm MY_ENV_VARIABLER production --token=$VERCEL_TOKEN
 
 workflows:
   version: 2
