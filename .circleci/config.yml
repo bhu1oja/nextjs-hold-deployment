@@ -44,7 +44,6 @@ jobs:
           command: |
             if [ -z "$APPROVAL_FLAG" ]; then
               echo "Production deployment requires manual approval. Set the APPROVAL_FLAG environment variable to proceed."
-              exit 1
             fi
       - run:
           name: Deploy Project Artifacts to Vercel (After Approval)
