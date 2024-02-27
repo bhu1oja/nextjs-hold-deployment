@@ -38,7 +38,7 @@ jobs:
           command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
       - run:
           name: Add production environment to Vercel
-          command: echo 'whatevervalue' | vercel env add MY_ENV_VARIABLERR production --token=$VERCEL_TOKEN ;
+          command: echo 'whatevervalue' | vercel env add MY_ENV_VARIABLERRR production --token=$VERCEL_TOKEN ;
       - run:
           name: See env variables
           command: vercel env ls --token=$VERCEL_TOKEN
@@ -50,7 +50,7 @@ jobs:
           command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
       - run:
           name: Remove production environment from Vercel
-          command: vercel env rm --yes MY_ENV_VARIABLER production --token=$VERCEL_TOKEN
+          command: vercel env rm --yes MY_ENV_VARIABLERR production --token=$VERCEL_TOKEN
 
 workflows:
   version: 2
