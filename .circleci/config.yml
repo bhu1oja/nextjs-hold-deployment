@@ -5,7 +5,7 @@ jobs:
       - image: cimg/node:20.10.0
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
-      VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
+      VERCEL_PROJECT_ID: prj_33VA0B09u0wHez4ysULXy3wHhaXs
     steps:
       - checkout
       - run:
@@ -26,8 +26,7 @@ jobs:
       - image: cimg/node:20.10.0
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
-      VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
-      APPROVAL_FLAG: ''
+      VERCEL_PROJECT_ID: prj_33VA0B09u0wHez4ysULXy3wHhaXs
     steps:
       - checkout
       - run:
@@ -43,11 +42,8 @@ jobs:
           name: See env variables
           command: vercel env ls --token=$VERCEL_TOKEN
       - run:
-          name: Build Project Artifacts
-          command: vercel build --prod --token=$VERCEL_TOKEN
-      - run:
           name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+          command: vercel deploy --prod --token=$VERCEL_TOKEN
       - run:
           name: Remove production environment from Vercel
           command: vercel env rm --yes TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN
