@@ -5,7 +5,7 @@ jobs:
       - image: cimg/node:20.10.0
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
-      VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
+      VERCEL_PROJECT_ID: prj_33VA0B09u0wHez4ysULXy3wHhaXs
     steps:
       - checkout
       - run:
@@ -27,7 +27,6 @@ jobs:
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
       VERCEL_PROJECT_ID: prj_33VA0B09u0wHez4ysULXy3wHhaXs
-      APPROVAL_FLAG: ''
     steps:
       - checkout
       - run:
