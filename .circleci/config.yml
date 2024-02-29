@@ -43,7 +43,7 @@ jobs:
           command: vercel env ls --token=$VERCEL_TOKEN
       - run:
           name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --no-wait --prod --token=$VERCEL_TOKEN
+          command: vercel deploy --prod --token=$VERCEL_TOKEN
       - run:
           name: Remove production environment from Vercel
           command: vercel env rm --yes TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN
