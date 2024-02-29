@@ -39,7 +39,7 @@ jobs:
           name: Add production environment to Vercel
           command: echo -n 'true' | vercel env add TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN ;
       - run:
-          name: See env variables
+          name: See env variables (OPTIONAL)
           command: vercel env ls --token=$VERCEL_TOKEN
       - run:
           name: Deploy Project Artifacts to Vercel
@@ -48,7 +48,7 @@ jobs:
           name: Remove production environment from Vercel
           command: vercel env rm --yes TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN
       - run:
-          name: See env variables
+          name: See env variables (OPTIONAL)
           command: vercel env ls --token=$VERCEL_TOKEN
 
 workflows:
