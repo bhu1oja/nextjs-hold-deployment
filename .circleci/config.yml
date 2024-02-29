@@ -4,8 +4,8 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     environment:
-      VERCEL_ORG_ID: $VERCEL_ORG_ID
-      VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
+      VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
+      VERCEL_PROJECT_ID: prj_33VA0B09u0wHez4ysULXy3wHhaXs
     steps:
       - checkout
       - run:
@@ -25,8 +25,8 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     environment:
-      VERCEL_ORG_ID: $VERCEL_ORG_ID
-      VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
+      VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
+      VERCEL_PROJECT_ID: prj_33VA0B09u0wHez4ysULXy3wHhaXs
     steps:
       - checkout
       - run:
@@ -39,16 +39,16 @@ jobs:
           name: Add production environment to Vercel
           command: echo -n 'true' | vercel env add TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN ;
       - run:
-          name: See env variables (OPTIONAL)
+          name: See env variables
           command: vercel env ls --token=$VERCEL_TOKEN
       - run:
           name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --no-wait --prod --token=$VERCEL_TOKEN
+          command: vercel deploy --prod --token=$VERCEL_TOKEN
       - run:
           name: Remove production environment from Vercel
           command: vercel env rm --yes TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN
       - run:
-          name: See env variables (OPTIONAL)
+          name: See env variables
           command: vercel env ls --token=$VERCEL_TOKEN
 
 workflows:
