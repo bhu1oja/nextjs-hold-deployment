@@ -19,7 +19,7 @@ jobs:
           command: vercel build
       - run:
           name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --prebuilt
+          command: vercel deploy --prebuilt--token=$VERCEL_TOKEN
 
   production_deployment:
     docker:
@@ -35,19 +35,19 @@ jobs:
           command: npm i -g vercel
       - run:
           name: Pull Vercel Environment Information
-          command: vercel pull --yes --environment=production
+          command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
       - run:
           name: Add production environment to Vercel
-          command: echo -n 'true' | vercel env add TRIGGER_PROD_BUILD production  ;
+          command: echo -n 'true' | vercel env add TRIGGER_PROD_BUILD production  --token=$VERCEL_TOKEN
       - run:
           name: See env variables
-          command: vercel env ls
+          command: vercel env ls --token=$VERCEL_TOKEN
       - run:
           name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --no-wait --prod
+          command: vercel deploy --no-wait --prod --token=$VERCEL_TOKEN
       - run:
           name: Remove production environment from Vercel
-          command: vercel env rm --yes TRIGGER_PROD_BUILD production
+          command: vercel env rm --yes TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN
       - run:
           name: See env variables
           command: vercel env ls
