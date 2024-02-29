@@ -5,7 +5,7 @@ jobs:
       - image: cimg/node:20.10.0
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
-      VERCEL_PROJECT_ID: prj_qfD0UT3oA0O7WBd6FOdt9eCIy7v7
+      VERCEL_PROJECT_ID:prj_33VA0B09u0wHez4ysULXy3wHhaXs
     steps:
       - checkout
       - run:
@@ -16,18 +16,17 @@ jobs:
           command: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
       - run:
           name: Build Project Artifacts
-          command: vercel build
+          command: vercel build --token=$VERCEL_TOKEN
       - run:
           name: Deploy Project Artifacts to Vercel
-          command: vercel deploy --prebuilt--token=$VERCEL_TOKEN
+          command: vercel deploy --prebuilt --token=$VERCEL_TOKEN
 
   production_deployment:
     docker:
       - image: cimg/node:20.10.0
     environment:
       VERCEL_ORG_ID: fFjAMdHDYJf2ciD2fO1Qr9ji
-      VERCEL_PROJECT_ID: prj_33VA0B09u0wHez4ysULXy3wHhaXs
-      APPROVAL_FLAG: ''
+      VERCEL_PROJECT_ID:prj_33VA0B09u0wHez4ysULXy3wHhaXs
     steps:
       - checkout
       - run:
@@ -38,7 +37,7 @@ jobs:
           command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
       - run:
           name: Add production environment to Vercel
-          command: echo -n 'true' | vercel env add TRIGGER_PROD_BUILD production  --token=$VERCEL_TOKEN
+          command: echo -n 'true' | vercel env add TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN ;
       - run:
           name: See env variables
           command: vercel env ls --token=$VERCEL_TOKEN
@@ -50,7 +49,7 @@ jobs:
           command: vercel env rm --yes TRIGGER_PROD_BUILD production --token=$VERCEL_TOKEN
       - run:
           name: See env variables
-          command: vercel env ls
+          command: vercel env ls --token=$VERCEL_TOKEN
 
 workflows:
   version: 2
