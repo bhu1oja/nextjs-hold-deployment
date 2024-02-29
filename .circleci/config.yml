@@ -38,7 +38,7 @@ jobs:
           command: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
       - run:
           name: Add production environment to Vercel
-          command:echo "ok" | vercel env add NEW_VAL production --token=$VERCEL_TOKEN ;
+          command: echo "ok" | vercel env add NEW_VAL production --token=$VERCEL_TOKEN ;
       - run:
           name: See env variables
           command: vercel env ls --token=$VERCEL_TOKEN
